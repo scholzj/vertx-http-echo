@@ -18,8 +18,7 @@ To run as client, set the environment variable `SERVICE_TYPE` to value `client`:
 export SERVICE_TYPE=client
 ```
 
-Optionally, you can also set `HTTP_HOSTNAME` and `HTTP_PORT` to the hostname and port where the server should try to connect. By default, these will be `localhost` and `8080`.
-
+Optionally, you can also set `HTTP_HOSTNAME` and `HTTP_PORT` to the hostname and port where the server should try to connect. By default, these will be `localhost` and `8080`. You can also configure proxy `PROXY_HOST` and `PROXY_PORT`
 
 ## Logging
 
