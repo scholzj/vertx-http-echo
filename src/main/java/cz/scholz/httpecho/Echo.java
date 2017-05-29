@@ -11,8 +11,11 @@ import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.core.net.ProxyOptions;
+import io.vertx.core.net.ProxyType;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.client.WebClient;
+import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.ext.web.handler.BodyHandler;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,11 +76,22 @@ public class Echo extends AbstractVerticle {
                 else {
                     String httpHost = config.getString("HTTP_HOSTNAME", "localhost");
                     Integer httpPort = config.getInteger("HTTP_PORT", 8080);
+                    String proxyHost = config.getString("PROXY_HOST");
+                    Integer proxyPort = config.getInteger("PROXY_PORT");
                     Integer timer = config.getInteger("TIMEOUT", 1000);
 
                     LOG.info("Starting HTTP client on {}:{}", httpHost, httpPort);
 
-                    client = WebClient.create(vertx);
+                    WebClientOptions proxyOptions;
+
+                    if (proxyHost != null && proxyPort != null) {
+                        proxyOptions = new WebClientOptions().setProxyOptions(new ProxyOptions().setHost(proxyHost).setPort(proxyPort).setType(ProxyType.HTTP));
+                    }
+                    else {
+                        proxyOptions = new WebClientOptions();
+                    }
+
+                    client = WebClient.create(vertx, proxyOptions);
 
                     vertx.setPeriodic(timer, id -> {
                         String message = "Echo " + counter.incrementAndGet();
