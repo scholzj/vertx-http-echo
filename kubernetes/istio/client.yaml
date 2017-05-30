@@ -1,0 +1,28 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vertx-http-echo-client
+  labels:
+    layer: client
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: vertx-http-echo-client
+      labels:
+        layer: client
+    spec:
+      containers:
+        - image: scholzj/vertx-http-echo:latest
+          name: vertx-http-echo-client
+          imagePullPolicy: Always
+          env:
+            - name: LOG_LEVEL
+              value: INFO
+            - name: SERVICE_TYPE
+              value: client
+            - name: HTTP_HOSTNAME
+              value: vertx-http-echo-server.default.svc.cluster.local
+            - name: HTTP_PORT
+              value: "8080"
