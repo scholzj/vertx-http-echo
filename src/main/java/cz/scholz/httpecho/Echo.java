@@ -56,7 +56,7 @@ public class Echo extends AbstractVerticle {
 
                     router.route("/*").handler(BodyHandler.create());
                     router.post("/echo").handler(req -> {
-                        LOG.info("Received request: {}", req.getBodyAsString());
+                        LOG.info("Received request: {} ({})", req.getBodyAsString(), counter.incrementAndGet());
                         req.response().end(req.getBodyAsString());
                     });
 
