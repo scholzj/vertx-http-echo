@@ -26,3 +26,5 @@ spec:
               value: vertx-http-echo-server
             - name: HTTP_PORT
               value: "8080"
+            - name: TIMEOUT
+              value: "100"
